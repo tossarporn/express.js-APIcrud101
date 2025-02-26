@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const { read } = require('../Controllers/product')
+const { read ,list} = require('../Controllers/product')
 
-router.get('/product',(req,res)=>{
-    res.send('Hello Get Product')
-})
+router.get('/product',list)
 
 router.get('/product/:id',read)
 
