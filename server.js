@@ -3,8 +3,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-const productRouter = require('./Routes/product');
-const authRouter = require('./Routes/auth');
+// const productRouter = require('./Routes/product');
+// const authRouter = require('./Routes/auth');
 const {readdirSync} = require('fs');
 
 const app = express();
