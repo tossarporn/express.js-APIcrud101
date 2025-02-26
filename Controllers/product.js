@@ -41,7 +41,12 @@ exports.create = async (req,res)=>{
 
 exports.update = async(req,res)=>{
     try{
-        res.send('Hello update');
+        const id = req.params.id;
+        const updated = await Product
+        .findOneAndUpdate({_id:id},req.body,{ new: true})
+        .exec();
+
+        res.send(updated);
     }
     catch(err){
         console.log(err);
