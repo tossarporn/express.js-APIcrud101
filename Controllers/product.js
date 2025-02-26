@@ -1,3 +1,6 @@
+const Product = require('../Models/product')
+
+
 
 exports.read =   async(req,res)=>{
     res.send('Hello Controller Read')
@@ -15,7 +18,10 @@ exports.list = async(req,res)=>{
 
 exports.create = async (req,res)=>{
     try{
-        res.send('Hello create');
+    //console.log(producted); ห้ามดูlog ตัวแปรเดียวกันกับที่สร้าง ให้ใช้ req.body แทน ในการ log
+        const producted = await Product(req.body).save();
+
+        res.send(producted);
     }
     catch(err){
         console.log(err)
