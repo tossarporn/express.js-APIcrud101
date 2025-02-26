@@ -8,7 +8,8 @@ exports.read =   async(req,res)=>{
 
 exports.list = async(req,res)=>{
     try{
-        res.send('Hello list');
+        const producted =  await Product.find({}).exec();
+        res.send(producted);
     }
     catch(err){
         console.log(err)
