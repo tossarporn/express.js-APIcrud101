@@ -8,11 +8,9 @@ exports.register = async(req,res)=>{
         const {name,password} = req.body
         let user = await User.findOne({name})
         //console.log(user) ค้นหา user จาก database
-
         if(user){
             return res.send('User Already Exists!').status(400)
         }
-
         //2. encrypt
         const salt = await bcrypt.genSalt(10)//เข้ารหัส
         user = new User({
@@ -20,8 +18,6 @@ exports.register = async(req,res)=>{
             password
         })//นำข้อมูลที่ได้จากการ req.body นำมาสร้างใหม่เพื่อพร้อมที่จะ บันทึกลง mongooshDB
         user.password = await bcrypt.hash(password,salt)//นำ password มาเข้ารหัส
-
-        
         //3. save data 
         await user.save();
         res.send("Register Success")
