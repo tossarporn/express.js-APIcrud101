@@ -1,6 +1,6 @@
 const User = require('../Models/User');
 const bcrypt = require('bcryptjs');
-
+const jwt = require('jsonwebtoken');
 
 exports.register = async(req,res)=>{
     try{
@@ -30,9 +30,35 @@ exports.register = async(req,res)=>{
 
 exports.login = async(req,res)=>{
     try{
-        res.send('Hello Login Controller')
+        //1. CheckUser
+         const { name,password} = req.body
+         let user = await User.findOneAndUpdate({ name },{ new: true})
+         console.log(user)
+         if(user){
+            const isMatch = await bcrypt.compare(password,user.password)
+            if(!isMatch){
+                return res.status(400).send('Password Invalid!')
+            }//ตรวจสอบ password ว่าตรงกับ mongooshDBหรือไม่
+            //2. payload
+            let payload = {
+                user:{
+                    name:user.name
+                }
+            }//ใช้ระบุตัวตนและสืทธิ์เข้าถึง จะมีข้อมูลเกียวกับผู้ใช้ สิทธิ์ และข้อมูลอื่น ห้ามใส่ข้อมูลสำคัญลงในนี้
+            //ค้นหาจาก name(ต้องตรงกันกับ DB) แล้วเอา password ที่รับมาแล้วส่งไป compare กับ password ใน mongoosh
+            
+            //3. Generate
+            jwt.sign(payload,'jwtsecrete',{expiresIn: '1h'},(err,token)=>{
+                if(err) throw err;
+                res.json({token,payload})
+            })   
+        }//ถ้าตรวจพบ user เจอ
+        else{
+            return res.status(400).send('User not Found')
+        }//ตรวจว่าไม่พบ user ไม่เจอ
     }
     catch(err){
         console.log(err)
+        res.status(500).send('Server Error')
     }
 }
