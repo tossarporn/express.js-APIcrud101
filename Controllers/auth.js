@@ -20,12 +20,11 @@ exports.register = async(req,res)=>{
             password
         })//นำข้อมูลที่ได้จากการ req.body นำมาสร้างใหม่เพื่อพร้อมที่จะ บันทึกลง mongooshDB
         user.password = await bcrypt.hash(password,salt)//นำ password มาเข้ารหัส
-        console.log(user)
+
         
         //3. save data 
-
-
-        res.send(req.body)
+        await user.save();
+        res.send("Register Success")
     }
     catch(err){
         console.log(err)
