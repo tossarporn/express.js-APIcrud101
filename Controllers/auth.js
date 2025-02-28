@@ -44,11 +44,15 @@ exports.login = async(req,res)=>{
                 user:{
                     name:user.name
                 }
-            }//ใช้ระบุตัวตนและสืทธิ์เข้าถึง จะมีข้อมูลเกียวกับผู้ใช้ สิทธิ์ และข้อมูลอื่น ห้ามใส่ข้อมูลสำคัญลงในนี้
+            }
+            //
+            //ใช้ระบุตัวตนและสืทธิ์เข้าถึง จะมีข้อมูลเกียวกับผู้ใช้ สิทธิ์ และข้อมูลอื่น ห้ามใส่ข้อมูลสำคัญลงในนี้
             //ค้นหาจาก name(ต้องตรงกันกับ DB) แล้วเอา password ที่รับมาแล้วส่งไป compare กับ password ใน mongoosh
             
             //3. Generate
-            jwt.sign(payload,'jwtsecrete',{expiresIn: '1h'},(err,token)=>{
+    //jwt.sign(payload(ข้อมูลที่เอาไว้เข้ารหัส),'jwtsecrete(secretKey)',{expiresIn: '1h'(เวลาหมดอายุโทเค็น)}
+     // (ถ้าerr(ให้ throw err),ถ้าไม่ให้ใส่tokenไปกับ payload เพื่อเข้ารหัส)      
+    jwt.sign(payload,'jwtsecrete',{expiresIn: '1h'},(err,token)=>{
                 if(err) throw err;
                 res.json({token,payload})
             })   

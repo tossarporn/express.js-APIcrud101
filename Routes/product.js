@@ -3,14 +3,17 @@ const router = express.Router();
 
 const { read ,list,create,update,remove} = require('../Controllers/product')
  
-router.get('/product',list)
+//middleware
+const {auth} =require('../Middleware/auth')
 
-router.get('/product/:id',read)
+router.get('/product',auth,list)
 
-router.post('/product',create)
+router.get('/product/:id',auth,read)
 
-router.put('/product/:id',update)
+router.post('/product',auth,create)
 
-router.delete('/product/:id',remove)
+router.put('/product/:id',auth,update)
+
+router.delete('/product/:id',auth,remove)
 
 module.exports = router
