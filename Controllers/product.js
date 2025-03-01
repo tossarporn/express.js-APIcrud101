@@ -29,11 +29,20 @@ exports.list = async(req,res)=>{
 exports.create = async (req,res)=>{
     try{
     //console.log(producted); ห้ามดูlog ตัวแปรเดียวกันกับที่สร้าง ให้ใช้ req.body แทน ในการ log
-    console.log(req.file) 
-    console.log(req.body)
-        //const producted = await Product(req.body).save();
+    // console.log(req.file) 
+    // console.log(req.body)
+    let data = req.body
+    if(req.file){
+        //file จะมาจากการที่เราสร้าง property จาก model
+        //แล้วเอามาต่อท้าย data เอาไว้ข้างล่างสุด
+        data.file = req.file.filename
+        const producted = await Product(req.body).save();//บันทึกลง mongooshDB
+        res.send(producted);
+    }
+    else{
+        res.status(500).send('not picture file')
+    }//else
 
-        res.send("producted");
     }
     catch(err){
         console.log(err);

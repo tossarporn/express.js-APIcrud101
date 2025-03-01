@@ -7,7 +7,8 @@ const productSchma = mongoose.Schema({
     },
     price:{
         type:Number
-    }
+    },
+    file:String//สร้าง property และ dataType ให้กับ DB 
 },{timestamps:true})
 
 module.exports = mongoose.model('products',productSchma)
