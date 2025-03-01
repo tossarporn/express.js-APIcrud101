@@ -1,5 +1,5 @@
 const Product = require('../Models/product')
-
+const fs = require("fs")
 
 
 exports.read = async(req,res)=>{
@@ -69,6 +69,16 @@ exports.remove = async(req,res)=>{
     try{
         const id =req.params.id;
         const remove = await Product.findOneAndDelete({_id:id})
+       
+        if(remove?.file){//ถ้า remove มีไหมแล้ว field ชื่อ file ละมีไหม
+            await fs.unlink('./uploads/'+remove.file,(err)=>{
+                if(err){
+                    console.log('delete_error')
+                }else{
+                    console.log('delete_success')
+                }
+            })
+        }
         res.send(remove);
     }
     catch(err){
