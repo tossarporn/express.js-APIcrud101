@@ -5,12 +5,13 @@ const { read ,list,create,update,remove} = require('../Controllers/product')
  
 //middleware
 const {auth} =require('../Middleware/auth')
+const {upload} = require('../Middleware/Uploads')
 
 router.get('/product',auth,list)
 
 router.get('/product/:id',auth,read)
 
-router.post('/product',auth,create)
+router.post('/product',auth,upload,create) 
 
 router.put('/product/:id',auth,update)
 
