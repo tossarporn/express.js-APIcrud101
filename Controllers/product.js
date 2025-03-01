@@ -29,10 +29,11 @@ exports.list = async(req,res)=>{
 exports.create = async (req,res)=>{
     try{
     //console.log(producted); ห้ามดูlog ตัวแปรเดียวกันกับที่สร้าง ให้ใช้ req.body แทน ในการ log
-        console.log(req.body)
-        const producted = await Product(req.body).save();
+    console.log(req.file) 
+    console.log(req.body)
+        //const producted = await Product(req.body).save();
 
-        res.send(producted);
+        res.send("producted");
     }
     catch(err){
         console.log(err);
